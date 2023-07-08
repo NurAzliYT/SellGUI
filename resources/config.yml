@@ -1,0 +1,16 @@
+message.sell.waiting: "&aItem sale is in progress, please wait!"
+message.cannot.sell: "&cCannot sell %0% items"
+message.list.sell.top: "&aYou have sold the following items:"
+message.list.sell: "&a-&e %0%x %1% &a-> &eRp%2%"
+
+items:
+  Iron_Ingot: 
+    price: 10
+  Diamond: 
+    price: 40
+  default:
+    price: 10
+
+# Blacklist items from sell
+# example: ["Iron_Ingot", "Diamond"] or ["Diamond"]
+blacklist: []
