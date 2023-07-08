@@ -10,7 +10,7 @@ use muqsit\invmenu\InvMenuHandler;
 use muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
-
+use onebone\economyapi\EconomyAPI;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\Listener;
@@ -36,6 +36,15 @@ class Loader extends PluginBase implements Listener
         if (!InvMenuHandler::isRegistered()) {
             InvMenuHandler::register($this);
         }
+    }
+
+    public function getEconomy()
+    {
+        return match (true) {
+            (class_exists(EconomyAPI::class)) => new \dhnnz\SellGUI\economy\EconomyAPI(),
+            (class_exists(BedrockEconomyAPI::class)) => new \dhnnz\SellGUI\economy\BedrockEconomyAPI(),
+            default => null
+        };
     }
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
@@ -84,7 +93,7 @@ class Loader extends PluginBase implements Listener
 
             $prices = array_column($listSell, 'price');
             array_map(function ($price) use ($player) {
-                BedrockEconomyAPI::legacy()->addToPlayerBalance($player->getName(), $price, ClosureContext::create(fn(bool $updated) => $updated));
+                $this->getEconomy()?->addMoney($player, $price, fn(bool $updated) => $updated);
             }, $prices);
 
             $player->sendMessage(TextFormat::colorize($this->getMessage("message.list.sell.top") . "\n" . implode("\n", array_map(function ($item, $details) {

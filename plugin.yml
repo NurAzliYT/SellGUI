@@ -1,10 +1,10 @@
 name: SellGUI
-version: 2.0.0
+version: 2.5.0
 api: 5.0.0
 main: dhnnz\SellGUI\Loader
 author: dhnnz
 website: https://github.com/dhnnz/SellGUI
-depend: BedrockEconomy
+softdepend: [BedrockEconomy, EconomyAPI]
 
 commands:
   sell:
