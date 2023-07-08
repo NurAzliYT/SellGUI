@@ -10,7 +10,9 @@ use muqsit\invmenu\InvMenuHandler;
 use muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
+
 use onebone\economyapi\EconomyAPI;
+
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\event\Listener;
@@ -79,14 +81,14 @@ class Loader extends PluginBase implements Listener
             $config = $this->getConfig();
             $listSell = [];
             foreach ($inventory->getContents() as $item) {
-                if (!in_array(str_replace("_", " ", $item->getName()), $config->get("blacklist"))) {
-                    $price = (int) ((isset($config->get("items")[str_replace("_", " ", $item->getName())]["price"])) ? $config->get("items")[str_replace("_", " ", $item->getName())]["price"] : $config->get("items")["default"]["price"]) * $item->getCount();
-                    $listSell[str_replace("_", " ", $item->getName())] = [
-                        "count" => ($listSell[str_replace("_", " ", $item->getName())]["count"] ?? 0) + $item->getCount(),
-                        "price" => ($listSell[str_replace("_", " ", $item->getName())]["price"] ?? 0) + $price
+                if (!in_array(str_replace(" ", "_", $item->getName()), $config->get("blacklist"))) {
+                    $price = (int) ((isset($config->get("items")[str_replace(" ", "_", $item->getName())]["price"])) ? $config->get("items")[str_replace(" ", "_", $item->getName())]["price"] : $config->get("items")["default"]["price"]) * $item->getCount();
+                    $listSell[str_replace(" ", "_", $item->getName())] = [
+                        "count" => ($listSell[str_replace(" ", "_", $item->getName())]["count"] ?? 0) + $item->getCount(),
+                        "price" => ($listSell[str_replace(" ", "_", $item->getName())]["price"] ?? 0) + $price
                     ];
                 } else {
-                    $player->sendMessage($this->getMessage("message.cannot.sell", [str_replace("_", " ", $item->getName())]));
+                    $player->sendMessage($this->getMessage("message.cannot.sell", [str_replace(" ", "_", $item->getName())]));
                     $player->getInventory()->addItem($item);
                 }
             }
