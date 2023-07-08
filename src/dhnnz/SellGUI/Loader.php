@@ -25,6 +25,12 @@ class Loader extends PluginBase implements Listener
 
     public function onEnable(): void
     {
+        if (!class_exists(InvMenuHandler::class)) {
+            $this->getLogger()->error("InvMenu virion not found.");
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+            return;
+        }
+
         $this->saveResource("config.yml");
 
         if (!InvMenuHandler::isRegistered()) {
