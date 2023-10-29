@@ -76,12 +76,11 @@ class Loader extends PluginBase implements Listener
         $menu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
         $inventory = $menu->getInventory();
 
-        $player->sendMessage($this->getMessage("message.sell.waiting"));
         $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) {
             $config = $this->getConfig();
             $listSell = [];
             foreach ($inventory->getContents() as $item) {
-                if (!in_array(str_replace(" ", "_", $item->getName()), $config->get("blacklist"))) {
+                if (!in_array(str_replace(" ", "_", $item->getName()), $config->get("blacklist")) {
                     $price = (int) ((isset($config->get("items")[str_replace(" ", "_", $item->getName())]["price"])) ? $config->get("items")[str_replace(" ", "_", $item->getName())]["price"] : $config->get("items")["default"]["price"]) * $item->getCount();
                     $listSell[str_replace(" ", "_", $item->getName())] = [
                         "count" => ($listSell[str_replace(" ", "_", $item->getName())]["count"] ?? 0) + $item->getCount(),
