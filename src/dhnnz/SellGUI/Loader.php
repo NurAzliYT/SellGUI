@@ -77,6 +77,7 @@ class Loader extends PluginBase implements Listener
         $inventory = $menu->getInventory();
 
         $self = $this;
+
         $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($self) {
             $config = $self->getConfig();
             $listSell = [];
@@ -107,7 +108,7 @@ class Loader extends PluginBase implements Listener
                 $count = $details['count'];
                 $price = number_format($details['price']);
                 return $self->getMessage("message.list.sell", [$count, $item, $price]);
-            }, array_keys($listSell), $listSell))));
+            }, array_keys($listSell), $listSell)));
         });
 
         $menu->send($player);
