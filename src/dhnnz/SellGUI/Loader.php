@@ -76,31 +76,37 @@ class Loader extends PluginBase implements Listener
         $menu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
         $inventory = $menu->getInventory();
 
-        $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) {
-            $config = $this->getConfig();
+        $self = $this;
+        $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($self) {
+            $config = $self->getConfig();
             $listSell = [];
             foreach ($inventory->getContents() as $item) {
                 if (!in_array(str_replace(" ", "_", $item->getName()), $config->get("blacklist"))) {
-                    $price = (int) ((isset($config->get("items")[str_replace(" ", "_", $item->getName())]["price"])) ? $config->get("items")[str_replace(" ", "_", $item->getName())]["price"] : $config->get("items")["default"]["price"]) * $item->getCount());
+                    $price = (int) ((isset($config->get("items")[str_replace(" ", "_", $item->getName())]["price"])) ? $config->get("items")[str_replace(" ", "_", $item->getName())]["price"] : $config->get("items")["default"]["price"]) * $item->getCount();
                     $listSell[str_replace(" ", "_", $item->getName())] = [
                         "count" => ($listSell[str_replace(" ", "_", $item->getName())]["count"] ?? 0) + $item->getCount(),
                         "price" => ($listSell[str_replace(" ", "_", $item->getName())]["price"] ?? 0) + $price
                     ];
                 } else {
-                    $player->sendMessage($this->getMessage("message.cannot.sell", [str_replace(" ", "_", $item->getName())]));
+                    $player->sendMessage($self->getMessage("message.cannot.sell", [str_replace(" ", "_", $item->getName())]));
                     $player->getInventory()->addItem($item);
                 }
             }
 
             $prices = array_column($listSell, 'price');
-            array_map(function ($price) use ($player) {
-                $this->getEconomy()?->addMoney($player, $price, fn(bool $updated) => $updated);
+            array_map(function ($price) use ($player, $self) {
+                $economy = $self->getEconomy();
+                if ($economy !== null) {
+                    $economy->addMoney($player, $price, function (bool $updated) {
+                        return $updated;
+                    });
+                }
             }, $prices);
 
-            $player->sendMessage(TextFormat::colorize($this->getMessage("message.list.sell.top") . "\n" . implode("\n", array_map(function ($item, $details) {
+            $player->sendMessage(TextFormat::colorize($self->getMessage("message.list.sell.top") . "\n" . implode("\n", array_map(function ($item, $details) {
                 $count = $details['count'];
                 $price = number_format($details['price']);
-                return $this->getMessage("message.list.sell", [$count, $item, $price]);
+                return $self->getMessage("message.list.sell", [$count, $item, $price]);
             }, array_keys($listSell), $listSell))));
         });
 
