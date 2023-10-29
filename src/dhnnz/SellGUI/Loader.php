@@ -78,7 +78,7 @@ class Loader extends PluginBase implements Listener
 
         $self = $this;
 
-        $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) use ($self) {
+        $menu->setInventoryCloseListener(function (Player $player, Inventory $inventory) {
             $config = $self->getConfig();
             $listSell = [];
             foreach ($inventory->getContents() as $item) {
