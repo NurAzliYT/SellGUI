@@ -5,7 +5,7 @@ branches:
 projects:
   SellGUI:
     path: ""
-    lib:
+    libs:
     - src: muqsit/invmenu/InvMenu
       version: ^1.0.0
 ...
