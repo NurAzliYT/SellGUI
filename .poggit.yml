@@ -6,6 +6,6 @@ projects:
   SellGUI:
     path: ""
     libs:
-    - src: Muqsit/Invmenu/InvMenu
+    - src: muqsit/invmenu/InvMenu
       version: ^1.0.0
 ...
