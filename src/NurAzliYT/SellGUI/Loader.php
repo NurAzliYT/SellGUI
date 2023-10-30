@@ -1,6 +1,6 @@
 <?php
 
-namespace dhnnz\SellGUI;
+namespace NurAzliYT\SellGUI;
 
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 use cooldogedev\BedrockEconomy\api\legacy\ClosureContext;
