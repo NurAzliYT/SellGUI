@@ -1,6 +1,6 @@
 <?php
 
-namespace dhnnz\SellGUI\economy;
+namespace NurAzliYT\SellGUI\economy;
 
 use onebone\economyapi\EconomyAPI as EconomyapiEconomyAPI;
 use pocketmine\player\Player;
