@@ -43,8 +43,8 @@ class Loader extends PluginBase implements Listener
     public function getEconomy()
     {
         return match (true) {
-            (class_exists(EconomyAPI::class)) => new \dhnnz\SellGUI\economy\EconomyAPI(),
-            (class_exists(BedrockEconomyAPI::class)) => new \dhnnz\SellGUI\economy\BedrockEconomyAPI(),
+            (class_exists(EconomyAPI::class)) => new \NurAzliYT\SellGUI\economy\EconomyAPI(),
+            (class_exists(BedrockEconomyAPI::class)) => new \NurAzliYT\SellGUI\economy\BedrockEconomyAPI(),
             default => null
         };
     }
