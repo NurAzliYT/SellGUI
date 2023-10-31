@@ -3,7 +3,6 @@ version: 1.0.0
 api: 5.0.0
 main: NurAzliYT\SellGUI\Loader
 author: NurAzliYT
-website: https://github.com/NurAzliYT/SellGUI
 softdepend: [BedrockEconomy, EconomyAPI]
 
 commands:
